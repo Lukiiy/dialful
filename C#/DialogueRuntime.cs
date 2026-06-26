@@ -59,8 +59,7 @@ public sealed class DialogueRuntime(IDialogueRenderer renderer)
 
         Renderer.RenderChoice(choice.Prompt, available.Select(o => o.Label).ToList());
 
-        int index = Renderer.GetChoiceInput(available.Count);
-        DialogueOption selected = available[index];
+        DialogueOption selected = available[Renderer.GetChoiceInput(available.Count)];
 
         result.RecordChoice(choice.Prompt, selected.Label);
 
