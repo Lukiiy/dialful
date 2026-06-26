@@ -52,7 +52,6 @@ public final class DialogueRuntime {
 
         renderer.renderChoice(choice.prompt(), available.stream().map(DialogueOption::label).toList());
 
-        int idx = renderer.getChoiceInput(available.size());
         DialogueOption selected = available.get(renderer.getChoiceInput(available.size()));
 
         result.recordChoice(choice.prompt(), selected.label());
