@@ -1,4 +1,4 @@
-namespace Dialogue;
+namespace Dialful;
 
 public sealed class DialogueBuilder
 {

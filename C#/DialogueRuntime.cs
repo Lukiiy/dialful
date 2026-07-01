@@ -1,6 +1,4 @@
-using Dialogue;
-
-namespace Dialogue;
+namespace Dialful;
 
 public sealed class DialogueRuntime(IDialogueRenderer renderer)
 {
