@@ -7,9 +7,9 @@ public sealed class SayStep(string text) : IDialogueStep
     public string Text { get; } = text;
 }
 
-public sealed class PauseStep(int duration) : IDialogueStep
+public sealed class PauseStep(TimeSpan duration) : IDialogueStep
 {
-    public int Duration { get; } = duration; // in milliseconds
+    public TimeSpan Duration { get; } = duration;
 }
 
 public sealed class EndStep : IDialogueStep

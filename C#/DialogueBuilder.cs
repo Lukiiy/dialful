@@ -12,7 +12,7 @@ public sealed class DialogueBuilder
         return this;
     }
 
-    public DialogueBuilder Pause(int duration)
+    public DialogueBuilder Pause(TimeSpan duration)
     {
         Steps.Add(new PauseStep(duration));
 
