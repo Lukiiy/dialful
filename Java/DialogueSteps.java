@@ -2,7 +2,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class DialogueSteps {
-    public interface IStep {}
+    public sealed interface IStep permits Say, Pause, End, Choice {}
 
     public record Say(String text) implements IStep {}
 
