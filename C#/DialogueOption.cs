@@ -6,5 +6,5 @@ public sealed class DialogueOption(string label, Func<bool>? condition, Dialogue
     public Func<bool>? Condition { get; } = condition;
     public Dialogue? Branch { get; } = branch;
 
-    public bool IsAvailable => Condition == null || Condition();
+    public bool Available => Condition == null || Condition();
 }

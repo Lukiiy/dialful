@@ -14,5 +14,5 @@ public sealed class Dialogue
     public static DialogueBuilder Create() => new DialogueBuilder();
     public DialogueResult Play(IDialogueRenderer renderer) => new DialogueRuntime(renderer).Execute(this);
 
-    internal void TriggerEnd() => onEnd?.Invoke();
+    internal void End() => onEnd?.Invoke();
 }

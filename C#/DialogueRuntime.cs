@@ -1,3 +1,5 @@
+using Dialogue;
+
 namespace Dialogue;
 
 public sealed class DialogueRuntime(IDialogueRenderer renderer)
@@ -8,23 +10,21 @@ public sealed class DialogueRuntime(IDialogueRenderer renderer)
     {
         DialogueResult result = new DialogueResult();
 
-        RunSteps(dialogue.Steps, result);
-
+        Run(dialogue.Steps, result);
         result.Completed = true;
-        dialogue.TriggerEnd();
+        dialogue.End();
 
         return result;
     }
 
-    private void RunSteps(IReadOnlyList<IDialogueStep> steps, DialogueResult result)
+    private bool Run(IReadOnlyList<IDialogueStep> steps, DialogueResult result)
     {
-        foreach (IDialogueStep step in steps)
-        {
-            if (!RunStep(step, result)) return;
-        }
+        foreach (IDialogueStep step in steps) if (!Step(step, result)) return false;
+
+        return true;
     }
 
-    private bool RunStep(IDialogueStep step, DialogueResult result)
+    private bool Step(IDialogueStep step, DialogueResult result)
     {
         switch (step)
         {
@@ -40,7 +40,7 @@ public sealed class DialogueRuntime(IDialogueRenderer renderer)
                 return false;
 
             case ChoiceStep choice:
-                RunChoice(choice, result);
+                Choice(choice.Prompt, choice.Options.ToList(), result);
                 return true;
 
             default:
@@ -48,18 +48,16 @@ public sealed class DialogueRuntime(IDialogueRenderer renderer)
         }
     }
 
-    private void RunChoice(ChoiceStep choice, DialogueResult result)
+    private void Choice(string prompt, List<DialogueOption> options, DialogueResult result)
     {
-        List<DialogueOption> available = choice.Options.Where(o => o.IsAvailable).ToList();
+        var available = options.Where(o => o.Available).ToList();
+        if (available.Count == 0) return; // skip if no options available
 
-        if (available.Count == 0) return; // auto-advance if no options available
-
-        Renderer.RenderChoice(choice.Prompt, available.Select(o => o.Label).ToList());
+        Renderer.RenderChoice(prompt, available.Select(o => o.Label).ToList());
 
         DialogueOption selected = available[Renderer.GetChoiceInput(available.Count)];
 
-        result.RecordChoice(choice.Prompt, selected.Label);
-
-        if (selected.Branch != null) RunSteps(selected.Branch.Steps, result);
+        result.RecordChoice(prompt, selected.Label);
+        if (selected.Branch != null) Run(selected.Branch.Steps, result);
     }
 }
