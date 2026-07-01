@@ -21,7 +21,7 @@ public final class Dialogue {
         return new DialogueRuntime(renderer).execute(this);
     }
 
-    public void triggerEnd() {
+    void end() {
         if (onEnd != null) onEnd.run();
     }
 }

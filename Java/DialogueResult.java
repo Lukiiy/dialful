@@ -10,19 +10,19 @@ public final class DialogueResult {
         return completed;
     }
 
-    public void setCompleted(boolean value) {
-        this.completed = value;
+    void complete() {
+        completed = true;
     }
 
     public String choice(String prompt) {
         return choices.get(prompt);
     }
 
-    public Map<String, String> allChoices() {
+    public Map<String, String> choices() {
         return Collections.unmodifiableMap(choices);
     }
 
-    void recordChoice(String prompt, String selectedLabel) {
-        choices.put(prompt, selectedLabel);
+    void record(String prompt, String value) {
+        choices.put(prompt, value);
     }
 }
