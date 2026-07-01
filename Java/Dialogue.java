@@ -1,10 +1,10 @@
 import java.util.List;
 
 public final class Dialogue {
-    private final List<DialogueStep> steps;
+    private final List<DialogueSteps.IStep> steps;
     private final Runnable onEnd;
 
-    Dialogue(List<DialogueStep> steps, Runnable onEnd) {
+    Dialogue(List<DialogueSteps.IStep> steps, Runnable onEnd) {
         this.steps = List.copyOf(steps);
         this.onEnd = onEnd;
     }
@@ -13,15 +13,15 @@ public final class Dialogue {
         return new DialogueBuilder();
     }
 
+    public List<DialogueSteps.IStep> steps() {
+        return steps;
+    }
+
     public DialogueResult play(DialogueRenderer renderer) {
         return new DialogueRuntime(renderer).execute(this);
     }
 
     public void triggerEnd() {
         if (onEnd != null) onEnd.run();
-    }
-
-    public List<DialogueStep> steps() {
-        return steps;
     }
 }

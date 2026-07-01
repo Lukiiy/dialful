@@ -3,16 +3,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class DialogueBuilder {
-    private final List<DialogueStep> steps = new ArrayList<>();
+    private final List<DialogueSteps.IStep> steps = new ArrayList<>();
     private Runnable onEnd;
 
     public DialogueBuilder say(String text) {
-        steps.add(new SayStep(text));
+        steps.add(new DialogueSteps.Say(text));
         return this;
     }
 
     public DialogueBuilder pause(Duration duration) {
-        steps.add(new PauseStep(duration));
+        steps.add(new DialogueSteps.Pause(duration));
         return this;
     }
 
@@ -21,7 +21,7 @@ public final class DialogueBuilder {
     }
 
     public DialogueBuilder endDialogue() {
-        steps.add(EndStep.INSTANCE);
+        steps.add(DialogueSteps.End.INSTANCE);
         return this;
     }
 
@@ -34,7 +34,7 @@ public final class DialogueBuilder {
         return new Dialogue(steps, onEnd);
     }
 
-    DialogueBuilder addStep(DialogueStep step) {
+    DialogueBuilder addStep(DialogueSteps.IStep step) {
         steps.add(step);
         return this;
     }

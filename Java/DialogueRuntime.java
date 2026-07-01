@@ -19,26 +19,24 @@ public final class DialogueRuntime {
         return result;
     }
 
-    private void runSteps(List<DialogueStep> steps, DialogueResult result) {
-        for (DialogueStep step : steps) {
-            if (!runStep(step, result)) return;
-        }
+    private void runSteps(List<DialogueSteps.IStep> steps, DialogueResult result) {
+        for (DialogueSteps.IStep step : steps) if (!runStep(step, result)) return;
     }
 
-    private boolean runStep(DialogueStep step, DialogueResult result) {
-        if (step instanceof SayStep(String text)) {
+    private boolean runStep(DialogueSteps.IStep step, DialogueResult result) {
+        if (step instanceof DialogueSteps.Say(String text)) {
             renderer.renderText(text);
             return true;
         }
 
-        if (step instanceof PauseStep(Duration duration)) {
+        if (step instanceof DialogueSteps.Pause(Duration duration)) {
             renderer.wait(duration);
             return true;
         }
 
-        if (step instanceof EndStep) return false;
+        if (step instanceof DialogueSteps.End) return false;
 
-        if (step instanceof ChoiceStep choice) {
+        if (step instanceof DialogueSteps.Choice choice) {
             runChoice(choice, result);
             return true;
         }
@@ -46,7 +44,7 @@ public final class DialogueRuntime {
         return true;
     }
 
-    private void runChoice(ChoiceStep choice, DialogueResult result) {
+    private void runChoice(DialogueSteps.Choice choice, DialogueResult result) {
         List<DialogueOption> available = choice.options().stream().filter(DialogueOption::isAvailable).toList();
         if (available.isEmpty()) return;
 

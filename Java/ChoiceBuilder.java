@@ -45,7 +45,7 @@ public final class ChoiceBuilder {
     }
 
     public DialogueBuilder end() {
-        parent.addStep(new ChoiceStep(prompt, List.copyOf(options)));
+        parent.addStep(new DialogueSteps.Choice(prompt, List.copyOf(options)));
 
         return parent;
     }
