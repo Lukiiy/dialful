@@ -1,5 +1,3 @@
-using System;
-
 namespace DialogueSystem;
 
 public sealed class DialogueOption(string label, Func<bool>? condition, Dialogue? branch)
