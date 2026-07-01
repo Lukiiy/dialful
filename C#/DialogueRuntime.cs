@@ -1,4 +1,4 @@
-namespace DialogueSystem;
+namespace Dialogue;
 
 public sealed class DialogueRuntime(IDialogueRenderer renderer)
 {
