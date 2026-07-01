@@ -14,7 +14,7 @@ public sealed class PauseStep(int duration) : IDialogueStep
 
 public sealed class EndStep : IDialogueStep
 {
-    public static readonly EndStep Instance = [];
+    public static readonly EndStep Instance = new();
 
     private EndStep() {} // prevent from new instances
 }
